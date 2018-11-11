@@ -3,7 +3,7 @@
     <div class="todo-container">
       <div class="todo-wrap">
         <TodoHeader @addTodo="addTodo"/>
-        <TodoMain :todos="todos" :deleteTodo="deleteTodo"/>
+        <TodoMain :todos="todos"/>
         <TodoFooter :todos="todos"
                     :deleteCompleteItems="deleteCompleteItems"
                     :selectAllTodos="selectAllTodos"/>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+  import Pubsub from 'pubsub-js'
 import Header from './components/Header'
 import Main from './components/Main'
 import Footer from './components/Footer'
@@ -23,6 +24,12 @@ export default{
     return {
       todos: storageUtils.readTodos()
     }
+  },
+
+  mounted () {
+    Pubsub.subscribe('deleteTodo',(msg,index)=>{
+      this.deleteTodo(index)
+    })
   },
 
   methods: {
