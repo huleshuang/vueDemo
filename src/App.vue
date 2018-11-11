@@ -37,10 +37,10 @@ export default{
       this.todos.splice(index,1)
     },
     deleteCompleteItems () {
-
+      this.todos=this.todos.filter(todo => !todo.complete)
     },
-    selectAllTodos () {
-      
+    selectAllTodos (isCheck) {
+      this.todos.forEach(todo => todo.complete=isCheck)
     }
   },
 
