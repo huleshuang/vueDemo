@@ -17,15 +17,11 @@
 import Header from './components/Header'
 import Main from './components/Main'
 import Footer from './components/Footer'
-
+import storageUtils from './util/storageUtils'
 export default{
   data () {
     return {
-      todos: [
-        {title: '吃饭', complete: false},
-        {title: '睡觉', complete: false},
-        {title: '打豆豆', complete: false}
-      ]
+      todos: storageUtils.readTodos()
     }
   },
 
@@ -43,7 +39,15 @@ export default{
       this.todos.forEach(todo => todo.complete=isCheck)
     }
   },
-
+  watch: {
+    todos: {
+      deep: true,
+      handler: function (value) {
+        // localStorage.setItem('todos_key',JSON.stringify(value))
+        storageUtils.saveTodos(value)
+      }
+    }
+  },
   components: {
     TodoHeader: Header,
     TodoMain: Main,
